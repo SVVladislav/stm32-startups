@@ -8,7 +8,10 @@
 #endif
 
 #ifdef __cplusplus
+#define __EXTERN_C extern "C"
 extern "C" {
+#else
+#define __EXTERN_C
 #endif
 
 #define __Reset_Handler __cmain
@@ -60,7 +63,7 @@ void CEC_IRQHandler()                     __attribute__ ((weak, alias ("Default_
 
 typedef void(*intvec_elem)();
 
-extern "C" const intvec_elem __vector_table[] __VECTOR_TABLE_ATTRIBUTE =
+__EXTERN_C const intvec_elem __vector_table[] __VECTOR_TABLE_ATTRIBUTE =
 { (intvec_elem)__STACK_TOP, &__Reset_Handler,
   &NMI_Handler,
   &HardFault_Handler,

@@ -100,7 +100,6 @@ extern "C" {
   }
 #endif // __GCC_CODE__
 
-
 void Default_Handler() { for(;;); }
 
 void NMI_Handler()                        __attribute__ ((weak, alias ("Default_Handler")));
