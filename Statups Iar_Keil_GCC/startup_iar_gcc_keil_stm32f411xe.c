@@ -1,4 +1,4 @@
-// STM32G431 Startup file
+// STM32F411 Startup file
 // IAR, GCC, Keil compatible
 
 #include "cmsis_compiler.h"
@@ -35,7 +35,7 @@ extern "C" {
   void abort(){}
   void __cmain();
 #endif
-
+  
 #ifdef __KEIL_CODE__
 //------------------------------
 // Keil startup code
@@ -46,14 +46,13 @@ extern "C" {
   #define __Reset_Handler Reset_Handler
   #define __STACK_TOP (void *)&Image$$ARM_LIB_STACK$$ZI$$Limit
   extern int Image$$ARM_LIB_STACK$$ZI$$Limit;
-
   void Reset_Handler()
   {
     SystemInit();
     __main();
   }
 #endif // __KEIL_CODE__
-
+	
 #ifdef __GCC_CODE__
 //------------------------------
 // GCC Newlib startup code
@@ -100,7 +99,8 @@ extern "C" {
   }
 #endif // __GCC_CODE__
 
-void Default_Handler() { for(;;); }
+  
+void Default_Handler(){ for(;;); }
 
 void NMI_Handler()                    __attribute__ ((weak, alias ("Default_Handler")));
 void HardFault_Handler()              __attribute__ ((weak, alias ("Default_Handler")));
@@ -112,8 +112,8 @@ void DebugMon_Handler()               __attribute__ ((weak, alias ("Default_Hand
 void PendSV_Handler()                 __attribute__ ((weak, alias ("Default_Handler")));
 void SysTick_Handler()                __attribute__ ((weak, alias ("Default_Handler")));
 void WWDG_IRQHandler()                __attribute__ ((weak, alias ("Default_Handler")));
-void PVD_PVM_IRQHandler()             __attribute__ ((weak, alias ("Default_Handler")));
-void RTC_TAMP_LSECSS_IRQHandler()     __attribute__ ((weak, alias ("Default_Handler")));
+void PVD_IRQHandler()                 __attribute__ ((weak, alias ("Default_Handler")));
+void TAMP_STAMP_IRQHandler()          __attribute__ ((weak, alias ("Default_Handler")));
 void RTC_WKUP_IRQHandler()            __attribute__ ((weak, alias ("Default_Handler")));
 void FLASH_IRQHandler()               __attribute__ ((weak, alias ("Default_Handler")));
 void RCC_IRQHandler()                 __attribute__ ((weak, alias ("Default_Handler")));
@@ -122,21 +122,18 @@ void EXTI1_IRQHandler()               __attribute__ ((weak, alias ("Default_Hand
 void EXTI2_IRQHandler()               __attribute__ ((weak, alias ("Default_Handler")));
 void EXTI3_IRQHandler()               __attribute__ ((weak, alias ("Default_Handler")));
 void EXTI4_IRQHandler()               __attribute__ ((weak, alias ("Default_Handler")));
-void DMA1_Channel1_IRQHandler()       __attribute__ ((weak, alias ("Default_Handler")));
-void DMA1_Channel2_IRQHandler()       __attribute__ ((weak, alias ("Default_Handler")));
-void DMA1_Channel3_IRQHandler()       __attribute__ ((weak, alias ("Default_Handler")));
-void DMA1_Channel4_IRQHandler()       __attribute__ ((weak, alias ("Default_Handler")));
-void DMA1_Channel5_IRQHandler()       __attribute__ ((weak, alias ("Default_Handler")));
-void DMA1_Channel6_IRQHandler()       __attribute__ ((weak, alias ("Default_Handler")));
-void ADC1_2_IRQHandler()              __attribute__ ((weak, alias ("Default_Handler")));
-void USB_HP_IRQHandler()              __attribute__ ((weak, alias ("Default_Handler")));
-void USB_LP_IRQHandler()              __attribute__ ((weak, alias ("Default_Handler")));
-void FDCAN1_IT0_IRQHandler()          __attribute__ ((weak, alias ("Default_Handler")));
-void FDCAN1_IT1_IRQHandler()          __attribute__ ((weak, alias ("Default_Handler")));
+void DMA1_Stream0_IRQHandler()        __attribute__ ((weak, alias ("Default_Handler")));
+void DMA1_Stream1_IRQHandler()        __attribute__ ((weak, alias ("Default_Handler")));
+void DMA1_Stream2_IRQHandler()        __attribute__ ((weak, alias ("Default_Handler")));
+void DMA1_Stream3_IRQHandler()        __attribute__ ((weak, alias ("Default_Handler")));
+void DMA1_Stream4_IRQHandler()        __attribute__ ((weak, alias ("Default_Handler")));
+void DMA1_Stream5_IRQHandler()        __attribute__ ((weak, alias ("Default_Handler")));
+void DMA1_Stream6_IRQHandler()        __attribute__ ((weak, alias ("Default_Handler")));
+void ADC_IRQHandler()                 __attribute__ ((weak, alias ("Default_Handler")));
 void EXTI9_5_IRQHandler()             __attribute__ ((weak, alias ("Default_Handler")));
-void TIM1_BRK_TIM15_IRQHandler()      __attribute__ ((weak, alias ("Default_Handler")));
-void TIM1_UP_TIM16_IRQHandler()       __attribute__ ((weak, alias ("Default_Handler")));
-void TIM1_TRG_COM_TIM17_IRQHandler()  __attribute__ ((weak, alias ("Default_Handler")));
+void TIM1_BRK_TIM9_IRQHandler()       __attribute__ ((weak, alias ("Default_Handler")));
+void TIM1_UP_TIM10_IRQHandler()       __attribute__ ((weak, alias ("Default_Handler")));
+void TIM1_TRG_COM_TIM11_IRQHandler()  __attribute__ ((weak, alias ("Default_Handler")));
 void TIM1_CC_IRQHandler()             __attribute__ ((weak, alias ("Default_Handler")));
 void TIM2_IRQHandler()                __attribute__ ((weak, alias ("Default_Handler")));
 void TIM3_IRQHandler()                __attribute__ ((weak, alias ("Default_Handler")));
@@ -149,38 +146,28 @@ void SPI1_IRQHandler()                __attribute__ ((weak, alias ("Default_Hand
 void SPI2_IRQHandler()                __attribute__ ((weak, alias ("Default_Handler")));
 void USART1_IRQHandler()              __attribute__ ((weak, alias ("Default_Handler")));
 void USART2_IRQHandler()              __attribute__ ((weak, alias ("Default_Handler")));
-void USART3_IRQHandler()              __attribute__ ((weak, alias ("Default_Handler")));
 void EXTI15_10_IRQHandler()           __attribute__ ((weak, alias ("Default_Handler")));
 void RTC_Alarm_IRQHandler()           __attribute__ ((weak, alias ("Default_Handler")));
-void USBWakeUp_IRQHandler()           __attribute__ ((weak, alias ("Default_Handler")));
-void TIM8_BRK_IRQHandler()            __attribute__ ((weak, alias ("Default_Handler")));
-void TIM8_UP_IRQHandler()             __attribute__ ((weak, alias ("Default_Handler")));
-void TIM8_TRG_COM_IRQHandler()        __attribute__ ((weak, alias ("Default_Handler")));
-void TIM8_CC_IRQHandler()             __attribute__ ((weak, alias ("Default_Handler")));
-void LPTIM1_IRQHandler()              __attribute__ ((weak, alias ("Default_Handler")));
+void OTG_FS_WKUP_IRQHandler()         __attribute__ ((weak, alias ("Default_Handler")));
+void DMA1_Stream7_IRQHandler()        __attribute__ ((weak, alias ("Default_Handler")));
+void SDIO_IRQHandler()                __attribute__ ((weak, alias ("Default_Handler")));
+void TIM5_IRQHandler()                __attribute__ ((weak, alias ("Default_Handler")));
 void SPI3_IRQHandler()                __attribute__ ((weak, alias ("Default_Handler")));
-void UART4_IRQHandler()               __attribute__ ((weak, alias ("Default_Handler")));
-void TIM6_DAC_IRQHandler()            __attribute__ ((weak, alias ("Default_Handler")));
-void TIM7_IRQHandler()                __attribute__ ((weak, alias ("Default_Handler")));
-void DMA2_Channel1_IRQHandler()       __attribute__ ((weak, alias ("Default_Handler")));
-void DMA2_Channel2_IRQHandler()       __attribute__ ((weak, alias ("Default_Handler")));
-void DMA2_Channel3_IRQHandler()       __attribute__ ((weak, alias ("Default_Handler")));
-void DMA2_Channel4_IRQHandler()       __attribute__ ((weak, alias ("Default_Handler")));
-void DMA2_Channel5_IRQHandler()       __attribute__ ((weak, alias ("Default_Handler")));
-void UCPD1_IRQHandler()               __attribute__ ((weak, alias ("Default_Handler")));
-void COMP1_2_3_IRQHandler()           __attribute__ ((weak, alias ("Default_Handler")));
-void COMP4_IRQHandler()               __attribute__ ((weak, alias ("Default_Handler")));
-void CRS_IRQHandler()                 __attribute__ ((weak, alias ("Default_Handler")));
-void SAI1_IRQHandler()                __attribute__ ((weak, alias ("Default_Handler")));
-void FPU_IRQHandler()                 __attribute__ ((weak, alias ("Default_Handler")));
-void RNG_IRQHandler()                 __attribute__ ((weak, alias ("Default_Handler")));
-void LPUART1_IRQHandler()             __attribute__ ((weak, alias ("Default_Handler")));
+void DMA2_Stream0_IRQHandler()        __attribute__ ((weak, alias ("Default_Handler")));
+void DMA2_Stream1_IRQHandler()        __attribute__ ((weak, alias ("Default_Handler")));
+void DMA2_Stream2_IRQHandler()        __attribute__ ((weak, alias ("Default_Handler")));
+void DMA2_Stream3_IRQHandler()        __attribute__ ((weak, alias ("Default_Handler")));
+void DMA2_Stream4_IRQHandler()        __attribute__ ((weak, alias ("Default_Handler")));
+void OTG_FS_IRQHandler()              __attribute__ ((weak, alias ("Default_Handler")));
+void DMA2_Stream5_IRQHandler()        __attribute__ ((weak, alias ("Default_Handler")));
+void DMA2_Stream6_IRQHandler()        __attribute__ ((weak, alias ("Default_Handler")));
+void DMA2_Stream7_IRQHandler()        __attribute__ ((weak, alias ("Default_Handler")));
+void USART6_IRQHandler()              __attribute__ ((weak, alias ("Default_Handler")));
 void I2C3_EV_IRQHandler()             __attribute__ ((weak, alias ("Default_Handler")));
 void I2C3_ER_IRQHandler()             __attribute__ ((weak, alias ("Default_Handler")));
-void DMAMUX_OVR_IRQHandler()          __attribute__ ((weak, alias ("Default_Handler")));
-void DMA2_Channel6_IRQHandler()       __attribute__ ((weak, alias ("Default_Handler")));
-void CORDIC_IRQHandler()              __attribute__ ((weak, alias ("Default_Handler")));
-void FMAC_IRQHandler()                __attribute__ ((weak, alias ("Default_Handler")));
+void FPU_IRQHandler()                 __attribute__ ((weak, alias ("Default_Handler")));
+void SPI4_IRQHandler()                __attribute__ ((weak, alias ("Default_Handler")));
+void SPI5_IRQHandler()                __attribute__ ((weak, alias ("Default_Handler")));
 
 typedef void(*intvec_elem)();
 
@@ -198,8 +185,8 @@ __EXTERN_C const intvec_elem __vector_table[] __VECTOR_TABLE_ATTRIBUTE =
   &PendSV_Handler,
   &SysTick_Handler,
   &WWDG_IRQHandler,
-  &PVD_PVM_IRQHandler,
-  &RTC_TAMP_LSECSS_IRQHandler,
+  &PVD_IRQHandler,
+  &TAMP_STAMP_IRQHandler,
   &RTC_WKUP_IRQHandler,
   &FLASH_IRQHandler,
   &RCC_IRQHandler,
@@ -208,22 +195,19 @@ __EXTERN_C const intvec_elem __vector_table[] __VECTOR_TABLE_ATTRIBUTE =
   &EXTI2_IRQHandler,
   &EXTI3_IRQHandler,
   &EXTI4_IRQHandler,
-  &DMA1_Channel1_IRQHandler,
-  &DMA1_Channel2_IRQHandler,
-  &DMA1_Channel3_IRQHandler,
-  &DMA1_Channel4_IRQHandler,
-  &DMA1_Channel5_IRQHandler,
-  &DMA1_Channel6_IRQHandler,
-  NULL,
-  &ADC1_2_IRQHandler,
-  &USB_HP_IRQHandler,
-  &USB_LP_IRQHandler,
-  &FDCAN1_IT0_IRQHandler,
-  &FDCAN1_IT1_IRQHandler,
+  &DMA1_Stream0_IRQHandler,
+  &DMA1_Stream1_IRQHandler,
+  &DMA1_Stream2_IRQHandler,
+  &DMA1_Stream3_IRQHandler,
+  &DMA1_Stream4_IRQHandler,
+  &DMA1_Stream5_IRQHandler,
+  &DMA1_Stream6_IRQHandler,
+  &ADC_IRQHandler,
+  NULL, NULL, NULL, NULL,
   &EXTI9_5_IRQHandler,
-  &TIM1_BRK_TIM15_IRQHandler,
-  &TIM1_UP_TIM16_IRQHandler,
-  &TIM1_TRG_COM_TIM17_IRQHandler,
+  &TIM1_BRK_TIM9_IRQHandler,
+  &TIM1_UP_TIM10_IRQHandler,
+  &TIM1_TRG_COM_TIM11_IRQHandler,
   &TIM1_CC_IRQHandler,
   &TIM2_IRQHandler,
   &TIM3_IRQHandler,
@@ -236,48 +220,37 @@ __EXTERN_C const intvec_elem __vector_table[] __VECTOR_TABLE_ATTRIBUTE =
   &SPI2_IRQHandler,
   &USART1_IRQHandler,
   &USART2_IRQHandler,
-  &USART3_IRQHandler,
+  NULL,
   &EXTI15_10_IRQHandler,
   &RTC_Alarm_IRQHandler,
-  &USBWakeUp_IRQHandler,
-  &TIM8_BRK_IRQHandler,
-  &TIM8_UP_IRQHandler,
-  &TIM8_TRG_COM_IRQHandler,
-  &TIM8_CC_IRQHandler,
-  NULL, NULL,
-  &LPTIM1_IRQHandler,
-  NULL,
-  &SPI3_IRQHandler,
-  &UART4_IRQHandler,
-  NULL,
-  &TIM6_DAC_IRQHandler,
-  &TIM7_IRQHandler,
-  &DMA2_Channel1_IRQHandler,
-  &DMA2_Channel2_IRQHandler,
-  &DMA2_Channel3_IRQHandler,
-  &DMA2_Channel4_IRQHandler,
-  &DMA2_Channel5_IRQHandler,
-  NULL, NULL,
-  &UCPD1_IRQHandler,
-  &COMP1_2_3_IRQHandler,
-  &COMP4_IRQHandler,
-  NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-  &CRS_IRQHandler,
-  &SAI1_IRQHandler,
+  &OTG_FS_WKUP_IRQHandler,
   NULL, NULL, NULL, NULL,
-  &FPU_IRQHandler,
-  NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-  &RNG_IRQHandler,
-  &LPUART1_IRQHandler,
+  &DMA1_Stream7_IRQHandler,
+  NULL,
+  &SDIO_IRQHandler,
+  &TIM5_IRQHandler,
+  &SPI3_IRQHandler,
+  NULL, NULL, NULL, NULL,
+  &DMA2_Stream0_IRQHandler,
+  &DMA2_Stream1_IRQHandler,
+  &DMA2_Stream2_IRQHandler,
+  &DMA2_Stream3_IRQHandler,
+  &DMA2_Stream4_IRQHandler,
+  NULL, NULL, NULL, NULL, NULL, NULL,
+  &OTG_FS_IRQHandler,
+  &DMA2_Stream5_IRQHandler,
+  &DMA2_Stream6_IRQHandler,
+  &DMA2_Stream7_IRQHandler,
+  &USART6_IRQHandler,
   &I2C3_EV_IRQHandler,
   &I2C3_ER_IRQHandler,
-  &DMAMUX_OVR_IRQHandler,
+  NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+  &FPU_IRQHandler,
   NULL, NULL,
-  &DMA2_Channel6_IRQHandler,
-  NULL, NULL,
-  &CORDIC_IRQHandler,
-  &FMAC_IRQHandler
+  &SPI4_IRQHandler,
+  &SPI5_IRQHandler
 };
+
 
 #ifdef __cplusplus
 }
