@@ -183,12 +183,11 @@ void INT_ADC1_Handler()          __attribute__ ((weak, alias ("Default_Handler")
 void INT_DAC0_Handler()          __attribute__ ((weak, alias ("Default_Handler")));
 void INT_DAC1_Handler()          __attribute__ ((weak, alias ("Default_Handler")));
 
-typedef union { void(*__fun)(); void *__ptr; } intvec_elem;
+typedef void(*intvec_elem)();
 
-__EXTERN_C const intvec_elem __vector_table[] __attribute__ ((section (__VECTORS_SECTION__), used)) =
-{
-  {.__ptr = __STACK_TOP},
-  &__Reset_Handler,
+__EXTERN_C const intvec_elem __vector_table[] __VECTOR_TABLE_ATTRIBUTE =
+{ (intvec_elem)__STACK_TOP, &__Reset_Handler,
+
   &NMI_Handler,
   &HardFault_Handler,
   &MemManage_Handler,
