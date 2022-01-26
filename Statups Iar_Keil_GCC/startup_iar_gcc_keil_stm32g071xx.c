@@ -5,15 +5,15 @@
 #include <stddef.h>
 
 #if defined(__ARMCC_VERSION) && (__ARMCC_VERSION>=6100100)
-  #define __KEIL_CODE__
+#define __KEIL_CODE__
 #elif defined(__GNUC__)
-  #define __GCC_CODE__
+#define __GCC_CODE__
 #elif defined(__ICCARM__)
-  #define __IAR_CODE__
+#define __IAR_CODE__
 #elif defined( __CC_ARM ) || defined(__MICROLIB)
-  #error "ARMCC v5 and MICROLIB not supported"
+#error "ARMCC v5 and MICROLIB not supported"
 #else
-  #error "Can't detect compiler"
+#error "Can't detect compiler"
 #endif
 
 #ifdef __cplusplus
@@ -24,27 +24,27 @@ extern "C" {
 #endif
 
 #ifdef __IAR_CODE__
-//------------------------------
-// IAR startup code
-//------------------------------
-  #define __Reset_Handler __cmain
-  #pragma segment="CSTACK"
-  #define __STACK_TOP  ((uint32_t)__sfe( "CSTACK" ))
-  void exit(){}
-  void __exit(){}
-  void abort(){}
+  //------------------------------
+  // IAR startup code
+  //------------------------------
+#define __Reset_Handler __cmain
+#pragma segment="CSTACK"
+#define __STACK_TOP  ((uint32_t)__sfe( "CSTACK" ))
+  void exit() {}
+  void __exit() {}
+  void abort() {}
   void __cmain();
 #endif
 
 #ifdef __KEIL_CODE__
-//------------------------------
-// Keil startup code
-//------------------------------
+  //------------------------------
+  // Keil startup code
+  //------------------------------
   void __main();
   void SystemInit();
-  void exit() __attribute__ ((weak, alias ("Default_Handler")));
-  #define __Reset_Handler Reset_Handler
-  #define __STACK_TOP (void *)&Image$$ARM_LIB_STACK$$ZI$$Limit
+  void exit() __attribute__((weak, alias("Default_Handler")));
+#define __Reset_Handler Reset_Handler
+#define __STACK_TOP (void *)&Image$$ARM_LIB_STACK$$ZI$$Limit
   extern int Image$$ARM_LIB_STACK$$ZI$$Limit;
 
   void Reset_Handler()
@@ -55,45 +55,47 @@ extern "C" {
 #endif // __KEIL_CODE__
 
 #ifdef __GCC_CODE__
-//------------------------------
-// GCC Newlib startup code
-//------------------------------
-  #define __Reset_Handler Reset_Handler
-  #define __STACK_TOP  &_estack
+  //------------------------------
+  // GCC Newlib startup code
+  //------------------------------
+#define __Reset_Handler Reset_Handler
+#define __STACK_TOP  &_estack
   void SystemInit();
   void __libc_init_array();
   int main();
 
   // These magic symbols are provided by the linker.
   extern void *_estack;
-  extern void (*__preinit_array_start[]) (void) __attribute__((weak));
-  extern void (*__preinit_array_end[]) (void) __attribute__((weak));
-  extern void (*__init_array_start[]) (void) __attribute__((weak));
-  extern void (*__init_array_end[]) (void) __attribute__((weak));
-  extern void (*__fini_array_start[]) (void) __attribute__((weak));
-  extern void (*__fini_array_end[]) (void) __attribute__((weak));
+  extern void(*__preinit_array_start[])(void) __attribute__((weak));
+  extern void(*__preinit_array_end[])(void) __attribute__((weak));
+  extern void(*__init_array_start[])(void) __attribute__((weak));
+  extern void(*__init_array_end[])(void) __attribute__((weak));
+  extern void(*__fini_array_start[])(void) __attribute__((weak));
+  extern void(*__fini_array_end[])(void) __attribute__((weak));
 
   void __attribute__((naked, noreturn)) Reset_Handler()
   {
-    #ifdef __DEBUG_SRAM__
-      __set_MSP((uint32_t)&_estack);
-    #endif
+#ifdef __DEBUG_SRAM__
+    __set_MSP((uint32_t)&_estack);
+#endif
 
     SystemInit();
 
+#ifndef __DEBUG_SRAM__
     extern uint32_t _sidata[], _sdata[], _edata[];
-    for(volatile uint32_t *pSrc=_sidata, *pDst=_sdata; pDst!=_edata; *pDst++=*pSrc++);
+    for (volatile uint32_t *pSrc = _sidata, *pDst = _sdata; pDst != _edata; *pDst ++= *pSrc++) ;
+#endif
 
     extern uint32_t _sbss[], _ebss[];
-    for(volatile uint32_t *pDst=_sbss; pDst!=_ebss; *pDst++=0); // Zero -> BSS
+    for (volatile uint32_t *pDst = _sbss; pDst != _ebss; *pDst ++= 0) ; // Zero -> BSS
 
 #if (1)
     // Use with the "-nostartfiles" linker option instead __libc_init_array();
     // Iterate over all the preinit/init routines (mainly static constructors).
-    for(void(**fConstr)() = __preinit_array_start; fConstr < __preinit_array_end; (*fConstr++)());
-    for(void(**fConstr)() = __init_array_start;    fConstr < __init_array_end;    (*fConstr++)());
+    for (void(**fConstr)() = __preinit_array_start; fConstr < __preinit_array_end; (*fConstr++)()) ;
+    for (void(**fConstr)() = __init_array_start; fConstr < __init_array_end; (*fConstr++)()) ;
 #else
-   __libc_init_array(); // Use with libc start files
+    __libc_init_array(); // Use with libc start files
 #endif
 
     main();
