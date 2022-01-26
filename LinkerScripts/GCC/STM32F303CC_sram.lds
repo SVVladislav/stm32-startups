@@ -20,7 +20,7 @@ SECTIONS
 	{
 		. = ALIGN(4);
                 PROVIDE(__vtor = .);
-		KEEP(*(.isr_vector))
+		KEEP(*(.vectors))
 		. = ALIGN(4);
 	} > SRAM
 

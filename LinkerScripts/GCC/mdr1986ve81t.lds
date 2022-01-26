@@ -18,7 +18,7 @@ SECTIONS
 	.isr_vector :
 	{
 		. = ALIGN(4);
-		KEEP(*(.isr_vector))
+		KEEP(*(.vectors))
 		. = ALIGN(4);
 	} > FLASH
 
