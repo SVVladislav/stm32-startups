@@ -20,7 +20,6 @@ SECTIONS
 	.isr_vector :
 	{
 		. = ALIGN(4);
-                PROVIDE(__vtor = .);
 		KEEP(*(.vectors))
 		. = ALIGN(4);
 	} > FLASH
@@ -183,7 +182,7 @@ SECTIONS
 		KEEP(*(.heap))
 		. = ALIGN(4);
 		PROVIDE(__heap_end__ = .);
-	} > SRAM
+	} > CCMRAM
 
 	.reserved_for_stack (NOLOAD) :
 	{
@@ -192,7 +191,7 @@ SECTIONS
 		KEEP(*(.reserved_for_stack))
 		. = ALIGN(4);
 		PROVIDE(__reserved_for_stack_end__ = .);
-	} > SRAM
+	} > CCMRAM
 
 }
 

@@ -31,8 +31,6 @@ extern "C" {
 #pragma segment="CSTACK"
 #define __STACK_TOP  ((uint32_t)__sfe( "CSTACK" ))
   void exit() {}
-  void __exit() {}
-  void abort() {}
   void __cmain();
 #endif
 

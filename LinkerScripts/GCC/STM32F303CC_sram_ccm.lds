@@ -13,14 +13,13 @@ MEMORY
 }
 
 /*_estack = 0x2000a000;*/
-_estack = 0x10002000; /* 0x10000000 + 8K*/
+_estack = 0x10001000; /* 0x10000000 + 8K*/
 
 SECTIONS
 {
 	.isr_vector :
 	{
 		. = ALIGN(4);
-                PROVIDE(__vtor = .);
 		KEEP(*(.vectors))
 		. = ALIGN(4);
 	} > SRAM
